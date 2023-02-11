@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "dbed7552-03a4-40be-9475-6ca65552f9a2",
+		"name": "GitHub_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25802692"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "GET_Single_Issue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check status code\", function() \r",
+									"\r",
+									"{\r",
+									"pm.response.to.have.status(200);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check issue num\", function(){\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.number, \"Num prop\").equal(3)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues/3",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_All_Issues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check if response is array of issues\", function() {\r",
+									"    const body = pm.response.json();\r",
+									"    console.log(\"BODY\", body);\r",
+									"    pm.expect(Array.isArray(body));\r",
+									"\r",
+									"    for (let item of body) {\r",
+									"        pm.expect(typeof(item.title)).equals(\"string\")\r",
+									"        pm.expect(typeof(item.number)).equal(\"number\")\r",
+									"        pm.expect(item.number, \"Issue num propery\").is.greaterThan(0);\r",
+									"    }\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_Single_Issue _Labels",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200 scnd\", function (){\r",
+									"    console.log(\"RESPONSE: \", pm.response);\r",
+									"    pm.expect(pm.response.code).equals(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status is OK\", function (){\r",
+									"    pm.expect(pm.response.status, \"STATUS property\").equals(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues/2/labels",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues",
+								"2",
+								"labels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "Create_Issue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "Sicata",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "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",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Again issue\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create_Issue_With_Labels",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "Sicata",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "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",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Issue with labels\",\r\n    \"labels\": [\"bug\", \"priority:critical\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create_Issue_Missing_Title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Sicata/postman/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Sicata",
+								"postman",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Issues",
+			"item": [
+				{
+					"name": "Repos",
+					"item": [
+						{
+							"name": "GET",
+							"item": [
+								{
+									"name": "GET_All_Repos",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.github.com/users/Sicata/repos",
+											"protocol": "https",
+											"host": [
+												"api",
+												"github",
+												"com"
+											],
+											"path": [
+												"users",
+												"Sicata",
+												"repos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET_Single_Repo",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.github.com/users/Sicata/repos",
+											"protocol": "https",
+											"host": [
+												"api",
+												"github",
+												"com"
+											],
+											"path": [
+												"users",
+												"Sicata",
+												"repos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
